@@ -1,0 +1,19 @@
+.DS_Store
+Thumbs.db
+# Public portfolio repository: keep application and runtime files elsewhere.
+.env*
+.dev.vars*
+.openai/
+src/
+public/
+scripts/
+tests/
+db/
+drizzle/
+node_modules/
+dist/
+*.sqlite*
+*.db*
+*.pem
+*.key
+*.zip
