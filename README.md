@@ -15,7 +15,7 @@ Customers need a simple way to buy airtime for Afghan phone numbers while paying
 
 ## The application
 
-EasyLot uses **Heleket** for hosted cryptocurrency invoices and **Reloadly** for mobile airtime delivery. Customers enter a number, choose an AFN amount, review the total, and continue to payment. The server independently verifies a settled payment before requesting airtime.
+EasyLot supports cryptocurrency payments and mobile airtime delivery. Customers enter a number, choose an AFN amount, review the total, and continue to payment. The server independently verifies a settled payment before requesting airtime.
 
 An administrator manages the daily AFN-per-USD rate and service markup. The customer sees the selected amount and final total, while provider requests and payment invoices remain denominated in USD. Existing orders retain their accepted pricing when settings change.
 
@@ -31,9 +31,9 @@ An administrator manages the daily AFN-per-USD rate and service markup. The cust
 | --- | --- |
 | Customer experience | Responsive, right-to-left Dari interface and AFN amounts |
 | Phone validation | Afghan-number normalization, prefix-based network detection and server validation |
-| Service catalog | Reloadly operators, supported denominations and available-balance checks |
+| Service catalog | Supported mobile networks, denominations and available-balance checks |
 | Pricing | Admin-managed exchange rate and markup; order pricing snapshots |
-| Payments | Heleket invoices, signed callback verification and independent payment lookup |
+| Payments | Cryptocurrency checkout and server-side payment verification |
 | Order handling | Persistent states, private tracking access and atomic fulfillment claims |
 | Administration | Password login, protected sessions, pricing controls and manual top-ups |
 | Customer information | Support, purchase terms, refunds and privacy pages |
@@ -42,17 +42,10 @@ An administrator manages the daily AFN-per-USD rate and service markup. The cust
 
 ```mermaid
 flowchart TD
-    Customer[Customer: Afghan number and AFN amount] --> App[EasyLot application]
-    Admin[Administrator: pricing and manual top-ups] --> App
-    App <--> Store[(Orders and pricing)]
-    App --> Invoice[Heleket: hosted USD invoice]
-    Invoice --> Payment[Customer pays with cryptocurrency]
-    Payment --> Callback[Signed callback]
-    Callback --> App
-    App --> Verify[Independent payment verification]
-    Verify --> Delivery[Claim and request airtime delivery]
-    Delivery --> Reloadly[Reloadly prefunded wallet]
-    Reloadly --> Phone[Recipient mobile number]
+    Number[Enter Afghan mobile number] --> Amount[Choose amount in AFN]
+    Amount --> Payment[Pay with cryptocurrency]
+    Payment --> Verify[Confirm payment]
+    Verify --> Airtime[Send mobile airtime]
 ```
 
 ## Engineering decisions
@@ -72,11 +65,11 @@ flowchart TD
 | Hosted database | Cloudflare D1 |
 | Schema management | Drizzle and versioned SQL migrations |
 | Development / tests | Node.js 24 and isolated SQLite databases |
-| Integrations | Heleket Payment API and Reloadly Topups API |
+| Integrations | Cryptocurrency payments and mobile airtime services |
 
 On **10 October 2026**, the source snapshot passed **33 mocked automated tests** covering payment matching, callbacks, pricing, authentication, network validation, concurrent dispatch and ambiguous results. The Worker build also completed successfully. These checks did not spend provider funds or send real airtime.
 
-The implementation is hosted and integrates the provider APIs. Production VPS migration and Naqdina integration remain future work. Refunds are handled operationally; a durable delivery queue and cross-order wallet reservations are not included. These limits matter when assessing production scale.
+The implementation is hosted and integrates the provider APIs. Production VPS migration and additional local integrations remain future work. Refunds are handled operationally; a durable delivery queue and cross-order wallet reservations are not included. These limits matter when assessing production scale.
 
 ## Reviewing the project
 

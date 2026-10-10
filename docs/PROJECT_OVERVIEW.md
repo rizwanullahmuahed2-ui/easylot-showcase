@@ -4,7 +4,7 @@
 
 EasyLot is an Afghanistan-focused airtime storefront with a Dari interface, AFN pricing, cryptocurrency checkout, and an authenticated administrative area. It coordinates two external providers rather than implementing a cryptocurrency wallet or telecom billing system itself.
 
-Heleket collects the customer's payment. Reloadly delivers airtime from a separately prefunded provider balance. Payment collection does not automatically replenish that balance.
+Customers pay with cryptocurrency, and confirmed orders proceed to mobile airtime delivery.
 
 ## Customer journey
 
@@ -13,7 +13,7 @@ Heleket collects the customer's payment. Reloadly delivers airtime from a separa
 3. Show the selected AFN amount and final AFN total using current admin pricing.
 4. Preserve the quote's pricing and create a hosted USD invoice.
 5. Verify the payment callback and confirm settlement directly with the payment provider.
-6. Claim the stored order before requesting delivery from Reloadly.
+6. Claim the stored order before requesting mobile airtime delivery.
 7. Display the provider outcome through protected order tracking.
 
 The provider's local conversion and denomination rules determine delivered airtime. The site's manually configured AFN rate does not override the telecom provider's conversion.
@@ -48,7 +48,7 @@ The full test suite is available during private source review. No claim of indep
 
 Implemented: customer/admin interfaces, provider adapters, pricing controls, persistence, payment verification, tracking, manual delivery and mocked tests.
 
-Future work: production VPS adapter, coordinated live-data migration, Naqdina integration, a durable delivery queue, scheduled reconciliation and cross-order balance reservation. Refunds currently follow a manual support process.
+Future work: production VPS adapter, coordinated live-data migration, additional local integrations, a durable delivery queue, scheduled reconciliation and cross-order balance reservation. Refunds currently follow a manual support process.
 
 ## Source review
 
