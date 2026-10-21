@@ -88,3 +88,12 @@ python -m http.server 8082
 ```
 
 Open `http://localhost:8082`. This serves documentation only and makes no payment requests. It does not deploy or change the hosted storefront.
+
+## More portfolio projects
+
+Two independent projects are currently published as separate branches of this public repository. Each branch contains its own source tree, setup guide, tests and workflow; neither is part of the EasyLot payment application.
+
+- [Packet Trail — offline network capture analysis](https://github.com/rizwanullahmuahed2-ui/easylot-showcase/tree/projects/packet-trail): bounded PCAP parser, local dashboard, evidence-based traffic heuristics and CLI.
+- [Bike Demand Lab — reproducible Machine Learning](https://github.com/rizwanullahmuahed2-ui/easylot-showcase/tree/projects/bike-demand-lab): chronological UCI benchmark, leakage checks, measured metrics and an evidence dashboard.
+
+They can move to standalone repositories once repository creation is available to the connected account.
