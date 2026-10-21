@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#112b37" />
+    <meta
+      name="description"
+      content="Explore an offline packet capture. A local dashboard for protocol, conversation, and traffic evidence."
+    />
+    <title>Packet Trail · Capture workspace</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to capture workspace</a>
+    <aside class="sidebar" aria-label="Workspace navigation">
+      <a class="brand" href="/" aria-label="Packet Trail home"
+        ><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span
+        ><span
+          >packet<span class="brand-light">trail</span
+          ><small>CAPTURE INTELLIGENCE</small></span
+        ></a
+      >
+      <div class="workspace-label">WORKSPACE <span>01</span></div>
+      <nav>
+        <a class="nav-item active" href="#main"
+          ><svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3.5" y="3.5" width="6" height="6" rx="1.5" />
+            <rect x="14.5" y="3.5" width="6" height="6" rx="1.5" />
+            <rect x="3.5" y="14.5" width="6" height="6" rx="1.5" />
+            <rect x="14.5" y="14.5" width="6" height="6" rx="1.5" /></svg
+          >Capture overview<span class="nav-dot"></span
+        ></a>
+        <a class="nav-item" href="#conversations"
+          ><svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 7h15m-4-4 4 4-4 4M20 17H5m4-4-4 4 4 4" /></svg
+          >Conversations</a
+        >
+        <a class="nav-item" href="#signals"
+          ><svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m3 13 4-1 3-7 4 14 3-7h4" /></svg
+          >Heuristic signals</a
+        >
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="local-card">
+          <span class="local-indicator"></span><strong>Local by design</strong>
+          <p>
+            Your capture stays on this server. No third-party analysis services.
+          </p>
+        </div>
+        <div class="sidebar-signature">
+          <span class="avatar">RM</span
+          ><span>Rizwanullah Muahed<small>NETWORKING PORTFOLIO</small></span>
+        </div>
+        <span class="version">PACKET TRAIL <span>v1.0</span></span>
+      </div>
+    </aside>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="breadcrumb">
+          Workspace <span>/</span> <strong>Capture overview</strong>
+        </div>
+        <div class="session-status"><span></span>OFFLINE ANALYSIS</div>
+      </header>
+      <main id="main" tabindex="-1">
+        <section class="page-heading">
+          <div>
+            <div class="eyebrow">YOUR NETWORK, IN FOCUS</div>
+            <h1>Capture workspace<span>.</span></h1>
+            <p>
+              Follow traffic patterns. Inspect conversations. Find the evidence.
+            </p>
+          </div>
+          <button id="export-json" class="button button-secondary" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3v12m-4-4 4 4 4-4M5 15v5h14v-5" /></svg
+            >Export report
+          </button>
+        </section>
+        <section class="capture-tools" aria-label="Choose a capture">
+          <label class="upload-zone" id="dropzone" for="capture-file"
+            ><span class="upload-icon"
+              ><svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 16V4m-4 4 4-4 4 4M4 15v5h16v-5" /></svg></span
+            ><span class="upload-text"
+              ><strong>Bring your own capture</strong
+              ><span>Drop a .pcap file here, or <b>browse files</b></span
+              ><small>Classic PCAP · Ethernet / IPv4 · up to 8 MiB</small></span
+            ><input
+              type="file"
+              id="capture-file"
+              name="file"
+              accept=".pcap,application/vnd.tcpdump.pcap"
+              aria-label="Upload a classic PCAP capture"
+          /></label>
+          <div class="sample-picker">
+            <span class="sample-label"
+              ><span class="sparkle" aria-hidden="true">✧</span> EXPLORE A
+              SAMPLE</span
+            >
+            <div class="sample-buttons">
+              <button class="sample-button" data-sample="normal">
+                <span class="sample-symbol normal" aria-hidden="true">↗</span
+                ><span
+                  ><strong>Everyday traffic</strong
+                  ><small>A balanced baseline</small></span
+                ><span aria-hidden="true">→</span></button
+              ><button class="sample-button" data-sample="syn-burst">
+                <span class="sample-symbol burst" aria-hidden="true">ϟ</span
+                ><span
+                  ><strong>SYN burst</strong
+                  ><small>A concentrated pattern</small></span
+                ><span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
+        </section>
+        <div
+          id="status-message"
+          class="status-message"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+        <section id="empty-state" class="empty-state">
+          <div class="empty-art" aria-hidden="true">
+            <span class="art-grid"></span><span class="art-line one"></span
+            ><span class="art-line two"></span
+            ><span class="art-packet p1"></span
+            ><span class="art-packet p2"></span
+            ><span class="art-packet p3"></span
+            ><span class="art-target"
+              ><svg viewBox="0 0 32 32" fill="none">
+                <path d="m8 16 6 6 11-13" /></svg></span
+            ><span class="art-caption">READY TO TRACE</span>
+          </div>
+          <div class="empty-copy">
+            <span class="eyebrow">START WITH A CAPTURE</span>
+            <h2>See the story behind the traffic.</h2>
+            <p>
+              Open a bundled sample or upload a capture to explore packet rates,
+              protocol mix, and the endpoints in conversation.
+            </p>
+            <button id="start-demo" class="button button-primary">
+              Open everyday traffic <span aria-hidden="true">→</span></button
+            ><span class="empty-note"
+              >Deterministic sample. No network traffic is generated.</span
+            >
+          </div>
+          <div class="empty-footer">
+            <span><i></i> BOUNDED PARSING</span
+            ><span><i></i> NO RAW FILES SAVED</span
+            ><span><i></i> EXPLAINABLE SIGNALS</span>
+          </div>
+        </section>
+        <div id="report" hidden>
+          <section class="capture-heading">
+            <div class="capture-title">
+              <span class="file-icon" aria-hidden="true">⌁</span>
+              <div>
+                <h2 id="capture-name"></h2>
+                <p id="capture-meta"></p>
+              </div>
+              <span id="capture-badge" class="badge">CAPTURE LOADED</span>
+            </div>
+            <span class="capture-fresh"><i></i>Analysis complete</span>
+          </section>
+          <section class="metric-grid" aria-label="Capture summary">
+            <article class="metric">
+              <span class="metric-label"
+                >Total packets
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+                  <path
+                    d="m4 8 8-4 8 4-8 4-8-4Zm0 4 8 4 8-4M4 16l8 4 8-4"
+                  /></svg></span
+              ><strong id="metric-packets">—</strong
+              ><span id="metric-ipv4" class="metric-detail"></span>
+            </article>
+            <article class="metric">
+              <span class="metric-label"
+                >Captured data
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+                  <path
+                    d="M4 7h16M4 12h16M4 17h16M8 5v4m8 1v4m-8 1v4"
+                  /></svg></span
+              ><strong id="metric-bytes">—</strong
+              ><span id="metric-wire" class="metric-detail"></span>
+            </article>
+            <article class="metric">
+              <span class="metric-label"
+                >Capture duration
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+                  <circle cx="12" cy="12" r="8" />
+                  <path d="M12 7v5l3 2" /></svg></span
+              ><strong id="metric-duration">—</strong
+              ><span id="metric-rate" class="metric-detail"></span>
+            </article>
+            <article class="metric signal-metric">
+              <span class="metric-label"
+                >Heuristic flags
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+                  <path d="M5 21V4c5-5 9 5 14 0v10c-5 5-9-5-14 0" /></svg></span
+              ><strong id="metric-flags">—</strong
+              ><span class="metric-detail">Patterns for human review</span>
+            </article>
+          </section>
+          <div class="chart-grid">
+            <section class="panel traffic-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="eyebrow">TRAFFIC OVER TIME</span>
+                  <h2>Every packet has a moment.</h2>
+                </div>
+                <span class="chart-unit">PACKETS / SECOND</span>
+              </div>
+              <div class="chart-legend">
+                <span><i class="legend-all"></i>All packets</span
+                ><span><i class="legend-syn"></i>TCP SYN</span>
+              </div>
+              <div
+                id="timeline"
+                class="timeline"
+                role="img"
+                aria-label="Packets per second over the capture"
+              ></div>
+              <div class="chart-foot">
+                <span id="chart-start"></span><span id="chart-end"></span>
+              </div>
+            </section>
+            <section class="panel protocols-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="eyebrow">PROTOCOL BREAKDOWN</span>
+                  <h2>The traffic mix</h2>
+                </div>
+                <span class="subtle-dot">···</span>
+              </div>
+              <div
+                id="protocol-chart"
+                class="protocol-chart"
+                role="img"
+                aria-label="Protocol distribution"
+              ></div>
+              <div id="protocol-list" class="protocol-list"></div>
+            </section>
+          </div>
+          <section id="signals" class="panel signals-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">EXPLAINABLE HEURISTICS</span>
+                <h2>
+                  Signals worth a closer look
+                  <span id="signal-count" class="count-pill">0</span>
+                </h2>
+              </div>
+              <span class="subtle-label">INDICATORS, NOT VERDICTS</span>
+            </div>
+            <div id="flag-list"></div>
+            <p class="signals-note">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 11v6m0-10v1" /></svg
+              >Rate and TCP SYN concentration flags describe patterns in this
+              capture. They do not establish intent, an attack, or service
+              impact.
+            </p>
+          </section>
+          <section id="conversations" class="panel conversations-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">ENDPOINT EVIDENCE</span>
+                <h2>
+                  Who is talking to whom
+                  <span id="conversation-count" class="count-pill">0</span>
+                </h2>
+              </div>
+              <button id="export-csv" class="button button-text">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 3v12m-4-4 4 4 4-4M5 15v5h14v-5" /></svg
+                >Export CSV
+              </button>
+            </div>
+            <p class="table-description">
+              Directional IPv4 flows, grouped by endpoints, ports, and transport
+              protocol. Select a column to sort.
+            </p>
+            <div class="conversation-search">
+              <label for="conversation-search">Filter conversations</label
+              ><input
+                id="conversation-search"
+                type="search"
+                placeholder="IP address, port or protocol"
+                autocomplete="off"
+              />
+            </div>
+            <div
+              class="table-scroll"
+              tabindex="0"
+              aria-label="Scrollable conversation evidence"
+            >
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <button data-sort="source">
+                        Source <span aria-hidden="true">↕</span>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      <button data-sort="destination">
+                        Destination <span aria-hidden="true">↕</span>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      <button data-sort="protocol">
+                        Protocol <span aria-hidden="true">↕</span>
+                      </button>
+                    </th>
+                    <th scope="col" class="numeric" aria-sort="descending">
+                      <button data-sort="packets">
+                        Packets <span aria-hidden="true">↓</span>
+                      </button>
+                    </th>
+                    <th scope="col" class="numeric">
+                      <button data-sort="bytes">
+                        Bytes <span aria-hidden="true">↕</span>
+                      </button>
+                    </th>
+                    <th scope="col" class="numeric">
+                      <button data-sort="syn_packets">
+                        SYN <span aria-hidden="true">↕</span>
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="conversation-rows"></tbody>
+              </table>
+            </div>
+            <div class="table-footer">
+              <span id="table-count"></span
+              ><span>Sorted evidence · no payload inspection</span>
+            </div>
+          </section>
+          <section id="parsing-notes" class="panel parsing-panel" hidden>
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">CAPTURE QUALITY</span>
+                <h2>Parsing notes</h2>
+              </div>
+            </div>
+            <p id="parsing-summary"></p>
+            <ul id="issue-list"></ul>
+          </section>
+        </div>
+        <footer class="page-footer">
+          <span>Built to make network evidence readable.</span
+          ><span
+            >Classic PCAP only <i>·</i> IPv4 / TCP / UDP <i>·</i> PCAPNG
+            unsupported</span
+          >
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools==82.0.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "packet-trail"
+version = "1.0.0"
+description = "Offline PCAP evidence dashboard with transparent traffic heuristics"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "Rizwanullah Muahed"}]
+dependencies = [
+  "fastapi==0.156.8",
+  "uvicorn==0.54.0",
+  "python-multipart==0.0.32",
+]
+
+[project.optional-dependencies]
+dev = ["httpx==0.28.1", "pytest==9.0.2", "ruff==0.14.1"]
+
+[project.scripts]
+packet-trail = "packet_trail.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["packet_trail*"]
+
+[tool.setuptools.package-data]
+packet_trail = ["static/*", "samples/*.pcap"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "UP"]
