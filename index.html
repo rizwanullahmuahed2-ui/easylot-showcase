@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="EasyLot: a Dari mobile airtime storefront, payment verification and order processing case study by Rizwanullah Muahed."
+    />
+    <title>EasyLot — a payment workflow case study</title>
+    <link rel="stylesheet" href="assets/case-study.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to case study</a>
+    <header>
+      <a class="brand" href="./">EasyLot<span>Engineering case study</span></a
+      ><a href="https://github.com/rizwanullahmuahed2-ui/easylot-showcase"
+        >View on GitHub ↗</a
+      >
+    </header>
+    <main id="main">
+      <section class="hero">
+        <p class="eyebrow">FINTECH / AFGHANISTAN / DARI INTERFACE</p>
+        <h1>A small purchase.<br />A careful chain of checks.</h1>
+        <p class="lead">
+          A mobile airtime storefront connecting cryptocurrency payments to
+          Afghan phone networks, with accepted prices saved per order and
+          uncertain delivery held for review.
+        </p>
+        <div class="links">
+          <a
+            class="button"
+            href="https://afghan-topup.rizwanullahmuahed2.chatgpt.site/"
+            target="_blank"
+            rel="noreferrer"
+            >Open customer interface ↗</a
+          ><a href="mailto:rizwanullahmuahed2@gmail.com"
+            >Request private source access →</a
+          >
+        </div>
+        <p class="quiet">
+          By Rizwanullah Muahed · HTML / CSS / JavaScript · Cloudflare Workers /
+          D1
+        </p>
+      </section>
+      <section class="preview">
+        <div class="preview-label">
+          <span>01 / LOCAL REVIEW</span
+          ><span>Sample prices · no payment or airtime sent</span>
+        </div>
+        <img
+          src="assets/local-review.png"
+          alt="EasyLot Dari interface showing a sample number, available amounts and a sample quote for review"
+          width="1440"
+          height="1100"
+        />
+        <p>
+          This capture is from the disconnected local preview. The hosted
+          service has separate runtime configuration; a screenshot does not
+          establish live delivery availability.
+        </p>
+      </section>
+      <section class="two-col">
+        <div>
+          <p class="eyebrow">THE WORKFLOW</p>
+          <h2>Payment confirmation belongs on the server.</h2>
+        </div>
+        <div>
+          <p>
+            A customer enters an Afghan mobile number and an amount in AFN. The
+            server validates the network, denomination and pricing before
+            creating an order. The customer then pays a hosted cryptocurrency
+            invoice.
+          </p>
+          <p>
+            Returning from that page is not proof of payment. The server
+            independently checks the provider response against the stored
+            invoice, order, currency and amount before attempting airtime
+            delivery.
+          </p>
+          <ol class="flow">
+            <li>
+              <b>Validate</b><span>Number, operator and accepted amount</span>
+            </li>
+            <li>
+              <b>Verify</b
+              ><span>Settled payment and stored invoice details</span>
+            </li>
+            <li>
+              <b>Claim</b
+              ><span>Atomic transition before external delivery</span>
+            </li>
+            <li>
+              <b>Resolve</b><span>Complete, fail or hold for review</span>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section>
+        <p class="eyebrow">DECISIONS WORTH REVIEWING</p>
+        <h2>The difficult part is what happens between states.</h2>
+        <div class="decisions">
+          <details open>
+            <summary>Preserve the price the customer accepted</summary>
+            <p>
+              Orders store the AFN amount, exchange rate and service markup. An
+              administrator's later pricing change applies to new purchases,
+              without rewriting the agreed amounts on existing ones.
+            </p>
+          </details>
+          <details>
+            <summary>Prevent simultaneous delivery attempts</summary>
+            <p>
+              A persisted compare-and-set claims the order before calling the
+              airtime provider. Concurrent callbacks cannot both dispatch the
+              same stored order. This is an application-level guard, not a claim
+              of universal exactly-once provider delivery.
+            </p>
+          </details>
+          <details>
+            <summary>Keep uncertain results visible</summary>
+            <p>
+              A timeout can occur after a provider accepts a request. The order
+              moves to review rather than being sent again automatically.
+              Transaction references support operational reconciliation.
+            </p>
+          </details>
+          <details>
+            <summary>Keep tracking private to the purchasing browser</summary>
+            <p>
+              Order lookup requires a private access cookie. Administrator
+              sessions use separate authentication and authorization; payment
+              return URLs do not grant delivery permission.
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="two-col validation">
+        <div>
+          <p class="eyebrow">VALIDATION & BOUNDARIES</p>
+          <h2>Reviewable evidence.<br />Explicit operating limits.</h2>
+        </div>
+        <div>
+          <p>
+            The refreshed source passes
+            <strong>35 mocked automated tests</strong>, covering payment
+            matching, callbacks, pricing, authentication, concurrent dispatch,
+            ambiguous outcomes and disconnected preview. The Worker build
+            includes a bundled-preview smoke check. These checks send no real
+            airtime and spend no provider funds.
+          </p>
+          <p>
+            Refunds require operational handling. A durable delivery queue,
+            scheduled reconciliation and reservations across different orders
+            are not included. A production VPS migration needs a separate
+            adapter and secure administrator bootstrap.
+          </p>
+          <a href="docs/PROJECT_OVERVIEW.md"
+            >Read the technical project overview →</a
+          >
+        </div>
+      </section>
+      <section class="contact">
+        <p class="eyebrow">FOR TECHNICAL REVIEWERS</p>
+        <h2>Source, tests and migrations are available by request.</h2>
+        <p>
+          The implementation stays private. This public case study contains
+          documentation and screenshots, with no runtime credentials, customer
+          records or production database exports.
+        </p>
+        <a class="button" href="mailto:rizwanullahmuahed2@gmail.com"
+          >Contact Rizwanullah →</a
+        >
+      </section>
+    </main>
+    <footer>
+      <span>EasyLot / Rizwanullah Muahed</span
+      ><a href="README.md">Repository guide</a>
+    </footer>
+  </body>
+</html>

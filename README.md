@@ -5,7 +5,7 @@
 **Project owner:** [Rizwanullah Muahed](https://github.com/rizwanullahmuahed2-ui)  
 **Portfolio:** customer experience, API integration, payment verification, order processing and administration.
 
-[Live website](https://afghan-topup.rizwanullahmuahed2.chatgpt.site/) · [راهنمای دری](README.fa.md) · [Project overview](docs/PROJECT_OVERVIEW.md)
+[Live website](https://afghan-topup.rizwanullahmuahed2.chatgpt.site/) · [راهنمای دری](README.fa.md) · [Project overview](docs/PROJECT_OVERVIEW.md) · [Browser case study](index.html)
 
 This public repository presents the project for employers and technical reviewers. The complete implementation is maintained separately for private review; an employer can request repository access from the project owner.
 
@@ -21,9 +21,9 @@ An administrator manages the daily AFN-per-USD rate and service markup. The cust
 
 ## Customer interface
 
-![EasyLot customer interface in Dari](assets/customer-interface.png)
+![EasyLot local quote review in Dari](assets/local-review.png)
 
-*Actual hosted-site capture of the empty customer entry screen. The operator catalog is loading in this capture; no customer number, order or payment record is shown.*
+*Local disconnected preview with a sample number and sample pricing. The reviewer can inspect an amount and quote without an invoice, payment or airtime delivery. The earlier hosted-site entry capture remains in `assets/customer-interface.png`.*
 
 ## Features implemented
 
@@ -67,7 +67,7 @@ flowchart TD
 | Development / tests | Node.js 24 and isolated SQLite databases |
 | Integrations | Cryptocurrency payments and mobile airtime services |
 
-On **10 October 2026**, the source snapshot passed **33 mocked automated tests** covering payment matching, callbacks, pricing, authentication, network validation, concurrent dispatch and ambiguous results. The Worker build also completed successfully. These checks did not spend provider funds or send real airtime.
+On **21 October 2026**, the refreshed source passed **35 mocked automated tests** covering payment matching, callbacks, pricing, authentication, network validation, concurrent dispatch and ambiguous results. The Worker build and bundled-preview smoke check also completed successfully. Browser checks covered number detection, amount selection, quote review and the hidden payment action in preview. These checks did not spend provider funds or send real airtime.
 
 The implementation is hosted and integrates the provider APIs. Production VPS migration and additional local integrations remain future work. Refunds are handled operationally; a durable delivery queue and cross-order wallet reservations are not included. These limits matter when assessing production scale.
 
@@ -78,3 +78,13 @@ The implementation is hosted and integrates the provider APIs. Production VPS mi
 - Request private source access from the project owner for code, tests, migrations and installation instructions.
 
 Source access is granted individually for technical review. This repository does not grant a license to the private implementation.
+
+## Browse this case study locally
+
+The repository includes a responsive static case-study page with expandable engineering decisions. From this directory:
+
+```sh
+python -m http.server 8082
+```
+
+Open `http://localhost:8082`. This serves documentation only and makes no payment requests. It does not deploy or change the hosted storefront.
