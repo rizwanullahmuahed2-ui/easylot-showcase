@@ -8,8 +8,8 @@
 
 1. بستهٔ `EasyLot_Public_Showcase.zip` را استخراج کن.
 2. در ریپو، `Add file → Upload files` را باز کن.
-3. محتویات پوشهٔ `easylot-public` را در ریشهٔ ریپو آپلود کن؛ فایل‌های `README.md` و `README.fa.md` باید مستقیم در ریشه قرار بگیرند.
-4. پوشه‌های `assets` و `docs` را هم اضافه کن و Commit بزن.
+3. محتویات فولدرٔ `easylot-public` را در ریشهٔ ریپو آپلود کن؛ فایل‌های `README.md` و `README.fa.md` باید مستقیم در ریشه قرار بگیرند.
+4. فولدر‌های `assets` و `docs` را هم اضافه کن و Commit بزن.
 
 این بسته مخصوص نمونه‌کار عمومی است. بستهٔ `EasyLot_Private_Source.zip` و بستهٔ کامل قبلی را فقط در ریپوی Private قرار بده.
 
